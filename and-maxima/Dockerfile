@@ -1,7 +1,7 @@
-FROM jgoldfar/maxima-docker:latest
+FROM jgoldfar/maxima-docker:debian-latest
 
 # Make sure we don't get notifications we can't answer during building.
-env DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 LABEL maintainer "Jonathan Goldfarb <jgoldfar@my.fit.edu>"
 
@@ -18,8 +18,3 @@ RUN mkdir -p ${JuliaPath} && \
     ln -s /opt/julia-${JuliaVerShort}/bin/julia /usr/local/bin/julia-${JuliaVerShort} && \
     ln -s /opt/julia-${JuliaVerShort}/bin/julia /usr/local/bin/julia
 
-
-# Set up path
-ENV PATH="/usr/local/bin:${PATH}"
-
-ENTRYPOINT /bin/bash

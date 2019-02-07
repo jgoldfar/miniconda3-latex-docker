@@ -1,7 +1,7 @@
 FROM jgoldfar/latex-julia-docker:reqs-latest
 
 # Make sure we don't get notifications we can't answer during building.
-env DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL maintainer "Jonathan Goldfarb <jgoldfar@my.fit.edu>"
 
@@ -12,8 +12,3 @@ RUN mkdir -p ${JuliaDevPath} && \
     git clone https://github.com/JuliaLang/julia.git ${JuliaDevPath} && \
     cd ${JuliaDevPath} && \
     make install
-
-# Set up path
-ENV PATH="/usr/local/bin:${PATH}"
-
-ENTRYPOINT /bin/bash

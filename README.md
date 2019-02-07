@@ -44,10 +44,10 @@ Why should I use this container?
 
 ## Container Descriptions
 
-* plus-julia-release includes everything in default, plus Julia v0.6 and v0.7
+* `release` includes Julia v0.6 and v0.7
 
-* plus-julia-dev includes everything in default, plus Julia 0.7 and Julia 1.0 (useful for porting packages)
+* `nightly` includes Julia 0.7 and Julia 1.0 (useful for porting packages)
 
-* plus-julia-dev includes everything in default, plus a version of Julia built from source
+* `dev` includes a version of Julia built from source
 
-* plus-julia-and-maxima includes the released version of Julia (v0.7) as well as everything included in [maxima-docker](https://github.com/jgoldfar/maxima-docker), that is, Maxima built against SBCL.
+* `and-maxima` layers Maxima over `latex-docker` using [maxima-docker](https://github.com/jgoldfar/maxima-docker), that is, Maxima built against SBCL.

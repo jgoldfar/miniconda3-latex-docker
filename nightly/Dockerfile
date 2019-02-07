@@ -29,8 +29,3 @@ RUN mkdir -p ${JuliaPath} && \
     ln -fs ${JuliaPath} /opt/julia-${JuliaVerShort} && \
     ln -s /opt/julia-${JuliaVerShort}/bin/julia /usr/local/bin/julia-${JuliaVerShort} && \
     ln -s /opt/julia-${JuliaVerShort}/bin/julia /usr/local/bin/julia
-
-# Set up path
-ENV PATH="/usr/local/bin:${PATH}"
-
-ENTRYPOINT /bin/bash
