@@ -2,6 +2,7 @@ Latex & Julia docker container
 =====
 
 [![Docker Build Status](https://img.shields.io/docker/build/jgoldfar/latex-julia-docker.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/latex-julia-docker.svg)](https://hub.docker.com/r/jgoldfar/latex-julia-docker/)
+[![Build Status](https://travis-ci.org/jgoldfar/latex-julia-docker.svg?branch=master)](https://travis-ci.org/jgoldfar/latex-julia-docker)
 
 This container helps with compilation of latex sources without the need to install all latex packages on your system.
 
@@ -50,4 +51,4 @@ Why should I use this container?
 
 * `dev` includes a version of Julia built from source
 
-* `and-maxima` layers Maxima over `latex-docker` using [maxima-docker](https://github.com/jgoldfar/maxima-docker), that is, Maxima built against SBCL.
+* `and-maxima` layers Julia 0.7 over [maxima-docker](https://github.com/jgoldfar/maxima-docker), that is, Maxima built against SBCL.
