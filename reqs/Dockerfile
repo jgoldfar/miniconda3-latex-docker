@@ -35,5 +35,3 @@ RUN apt-get -q -y update && \
     screen \
     supervisor && \
     apt-get clean
-
-ENTRYPOINT /bin/bash
