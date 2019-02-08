@@ -1,0 +1,11 @@
+FROM jgoldfar/miniconda3:debian-stretch
+
+# Make sure we don't get notifications we can't answer during building.
+ENV DEBIAN_FRONTEND noninteractive
+
+LABEL maintainer "Jonathan Goldfarb <jgoldfar@my.fit.edu>"
+
+RUN apt-get -qq update && \
+    apt-get --no-install-recommends -qq -y install texlive-full && \
+    apt-get -qq -y autoremove && \
+    apt-get autoclean

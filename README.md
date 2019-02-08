@@ -1,8 +1,8 @@
-Latex & Julia docker container
+Latex & Miniconda 3 docker container
 =====
 
-[![Docker Build Status](https://img.shields.io/docker/build/jgoldfar/latex-julia-docker.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/latex-julia-docker.svg)](https://hub.docker.com/r/jgoldfar/latex-julia-docker/)
-[![Build Status](https://travis-ci.org/jgoldfar/latex-julia-docker.svg?branch=master)](https://travis-ci.org/jgoldfar/latex-julia-docker)
+[![Docker Build Status](https://img.shields.io/docker/build/jgoldfar/miniconda3-latex.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/miniconda3-latex.svg)](https://hub.docker.com/r/jgoldfar/miniconda3-latex-docker/)
+[![Build Status](https://travis-ci.org/jgoldfar/miniconda3-latex-docker.svg?branch=master)](https://travis-ci.org/jgoldfar/miniconda3-latex-docker)
 
 This container helps with compilation of latex sources without the need to install all latex packages on your system.
 
@@ -17,7 +17,7 @@ sudo usermod -aG docker YOURUSERNAME
 
 build:
 ```bash
-docker build -t jgoldfar/latex-julia-docker .
+docker build -t jgoldfar/miniconda3-latex .
 
 ```
 
@@ -25,10 +25,10 @@ Usage:
 -----
 
 ```bash
-docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)":/data jgoldfar/latex-julia-docker
+docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)":/data jgoldfar/miniconda3-latex
 
 # Or better in one go (does not start container twice)
-docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)":/data jgoldfar/latex-docker /bin/sh -c "pdflatex example.tex && pdflatex example.tex"
+docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)":/data jgoldfar/miniconda3-latex /bin/sh -c "pdflatex example.tex && pdflatex example.tex"
 
 # View
 ./example.pdf
@@ -40,15 +40,9 @@ Why should I use this container?
 -----
 
 - Easy setup
-- `texlive-full` covers most of the available packages
-- `chktex` and `pgf` packages are explicitly installed to ensure they are always available.
 
 ## Container Descriptions
 
-* `release` includes Julia v0.6 and v0.7
+* `full` includes texlive-full
 
-* `nightly` includes Julia 0.7 and Julia 1.0 (useful for porting packages)
-
-* `dev` includes a version of Julia built from source
-
-* `and-maxima` layers Julia 0.7 over [maxima-docker](https://github.com/jgoldfar/maxima-docker), that is, Maxima built against SBCL.
+* `minimal` includes TeX + LaTeX, but you'll have to install any required packages.
