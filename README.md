@@ -1,10 +1,10 @@
 Latex & Miniconda 3 docker container
 =====
 
-[![Docker Build Status](https://img.shields.io/docker/build/jgoldfar/miniconda3-latex.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/miniconda3-latex.svg)](https://hub.docker.com/r/jgoldfar/miniconda3-latex/)
+[![Docker Build Status](https://img.shields.io/docker/automated/jgoldfar/miniconda3-latex.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/miniconda3-latex.svg)](https://hub.docker.com/r/jgoldfar/miniconda3-latex/)
 [![Build Status](https://travis-ci.org/jgoldfar/miniconda3-latex-docker.svg?branch=master)](https://travis-ci.org/jgoldfar/miniconda3-latex-docker)
 
-This container helps with compilation of latex sources without the need to install all latex packages on your system.
+This container helps with compilation of latex sources without the need to maintain a LaTeX installation on your system.
 
 This repository is forked from blang's repository in order to add other packages needed for a CI setup.
 
