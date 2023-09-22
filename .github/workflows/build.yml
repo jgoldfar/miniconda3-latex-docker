@@ -13,10 +13,17 @@ env:
   DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
   REPO_NAME: ${{secrets.REPO_NAME}}
 
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build-and-push:
+  build-and-push-full:
     runs-on: 'ubuntu-20.04'
+    strategy:
+      matrix:
+        imgtag: ['full', 'minimal']
     steps:
       # https://github.com/actions/checkout
       - name: Checkout the commit triggering this job
@@ -25,27 +32,21 @@ jobs:
       - name: Login to Docker
         run: echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
 
-      - name: Build image for full and minimal images
+      - name: Build image for ${{ matrix.imgtag }} images
         id: build_image
         run: |
-          docker build -f Dockerfile.full -t ${REPO_NAME}:full-${GITHUB_SHA} .
-          docker build -f Dockerfile.minimal -t ${REPO_NAME}:minimal-${GITHUB_SHA} .
+          docker build -f Dockerfile.${{ matrix.imgtag }} -t ${REPO_NAME}:${{ matrix.imgtag }}-${GITHUB_SHA} .
         env:
           DOCKER_BUILDKIT: 1
 
-      - name: Tag images
+      - name: Tag images for ${{{ matrix.imgtag }}
         run: |
-          docker tag $REPO_NAME:full-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:full-latest
-          docker tag $REPO_NAME:minimal-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:minimal-latest
-          docker tag $REPO_NAME:full-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:full
-          docker tag $REPO_NAME:minimal-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:minimal
+          docker tag $REPO_NAME:${{ matrix.imgtag }}-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:${{ matrix.imgtag }}-latest
+          docker tag $REPO_NAME:${{ matrix.imgtag }}-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:${{ matrix.imgtag }}
 
       - name: Push tagged images to docker
         if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && github.ref_protected }}
         run: |
-          docker push $DOCKER_USER/$REPO_NAME:full
-          docker push $DOCKER_USER/$REPO_NAME:full-$GITHUB_SHA
-          docker push $DOCKER_USER/$REPO_NAME:full-latest
-          docker push $DOCKER_USER/$REPO_NAME:minimal
-          docker push $DOCKER_USER/$REPO_NAME:minimal-$GITHUB_SHA
-          docker push $DOCKER_USER/$REPO_NAME:minimal-latest
+          docker push $DOCKER_USER/$REPO_NAME:${{ matrix.imgtag }}
+          docker push $DOCKER_USER/$REPO_NAME:${{ matrix.imgtag }}-$GITHUB_SHA
+          docker push $DOCKER_USER/$REPO_NAME:${{ matrix.imgtag }}-latest
