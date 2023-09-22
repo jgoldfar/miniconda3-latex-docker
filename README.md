@@ -7,6 +7,13 @@ This container helps with compilation of latex sources without the need to maint
 
 Forked from blang's repository in order to add other packages needed for a CI setup, this repository is minimally maintained and accepts PRs. Thank you!
 
+> This program is distributed in the hope that it will be useful,
+> but WITHOUT ANY WARRANTY; without even the implied warranty of
+> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+For more information, reach out to the team at [desert.frog.solutions@gmail.com](mailto:desert.frog.solutions@gmail.com) or [desertfrogsolutions.com](https://desertfrogsolutions.com)
+
+
 Setup
 -----
 First, add your local user to docker group:

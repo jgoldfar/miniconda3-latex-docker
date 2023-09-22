@@ -22,6 +22,7 @@ jobs:
   build-and-push-full:
     runs-on: 'ubuntu-20.04'
     strategy:
+      fail-fast: false
       matrix:
         imgtag: ['full', 'minimal']
     steps:
