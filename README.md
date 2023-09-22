@@ -5,7 +5,7 @@ Latex & Miniconda 3 docker container
 
 This container helps with compilation of latex sources without the need to maintain a LaTeX installation on your system.
 
-This repository is forked from blang's repository in order to add other packages needed for a CI setup.
+Forked from blang's repository in order to add other packages needed for a CI setup, this repository is minimally maintained and accepts PRs. Thank you!
 
 Setup
 -----
