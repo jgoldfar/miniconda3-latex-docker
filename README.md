@@ -2,7 +2,6 @@ Latex & Miniconda 3 docker container
 =====
 
 [![Docker Build Status](https://img.shields.io/docker/automated/jgoldfar/miniconda3-latex.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/jgoldfar/miniconda3-latex.svg)](https://hub.docker.com/r/jgoldfar/miniconda3-latex/)
-[![Build Status](https://travis-ci.org/jgoldfar/miniconda3-latex-docker.svg?branch=master)](https://travis-ci.org/jgoldfar/miniconda3-latex-docker)
 
 This container helps with compilation of latex sources without the need to maintain a LaTeX installation on your system.
 
@@ -15,10 +14,19 @@ First, add your local user to docker group:
 sudo usermod -aG docker YOURUSERNAME
 ```
 
-build:
+Build the image you need. For the minimal image, run:
 ```bash
-docker build -t jgoldfar/miniconda3-latex .
+DOCKER_REPO_BASE="miniconda3-latex" docker build -f Dockerfile.minimal -t ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}:minimal
+```
 
+For the full image, run:
+```bash
+DOCKER_REPO_BASE="miniconda3-latex" docker build -f Dockerfile.full -t ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}:full
+```
+
+Push the image `${IMG_TAG}` with
+```bash
+docker push ${DOCKER_USERNAME}/${DOCKER_REPO_BASE}/${IMG_TAG}
 ```
 
 Usage:

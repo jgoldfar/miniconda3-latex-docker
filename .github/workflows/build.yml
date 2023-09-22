@@ -1,0 +1,51 @@
+name: Build and push docker images
+
+on:
+  push:
+    branches:
+      - '*'
+  schedule:
+    - cron: '30 5 * * 3'
+
+# Set env variables
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USER}}
+  DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
+  REPO_NAME: ${{secrets.REPO_NAME}}
+
+
+jobs:
+  build-and-push:
+    runs-on: 'ubuntu-20.04'
+    steps:
+      # https://github.com/actions/checkout
+      - name: Checkout the commit triggering this job
+        uses: actions/checkout@v4
+
+      - name: Login to Docker
+        run: echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
+
+      - name: Build image for full and minimal images
+        id: build_image
+        run: |
+          docker build -f Dockerfile.full -t ${REPO_NAME}:full-${GITHUB_SHA} .
+          docker build -f Dockerfile.minimal -t ${REPO_NAME}:minimal-${GITHUB_SHA} .
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Tag images
+        run: |
+          docker tag $REPO_NAME:full-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:full-latest
+          docker tag $REPO_NAME:minimal-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:minimal-latest
+          docker tag $REPO_NAME:full-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:full
+          docker tag $REPO_NAME:minimal-$GITHUB_SHA $DOCKER_USER/$REPO_NAME:minimal
+
+      - name: Push tagged images to docker
+        if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && github.ref_protected }}
+        run: |
+          docker push $DOCKER_USER/$REPO_NAME:full
+          docker push $DOCKER_USER/$REPO_NAME:full-$GITHUB_SHA
+          docker push $DOCKER_USER/$REPO_NAME:full-latest
+          docker push $DOCKER_USER/$REPO_NAME:minimal
+          docker push $DOCKER_USER/$REPO_NAME:minimal-$GITHUB_SHA
+          docker push $DOCKER_USER/$REPO_NAME:minimal-latest
