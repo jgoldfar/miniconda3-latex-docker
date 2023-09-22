@@ -9,7 +9,7 @@ RUN apt-get -q -y update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o DPkg::Options::="--force-confold" && \
     apt-get -q -y --no-install-recommends install \
     curl \
-    wget \
+    wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
