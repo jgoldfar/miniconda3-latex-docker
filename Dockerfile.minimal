@@ -8,11 +8,8 @@ LABEL maintainer "Jonathan Goldfarb <jgoldfar@gmail.com>"
 RUN apt-get -q -y update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o DPkg::Options::="--force-confold" && \
     apt-get -q -y --no-install-recommends install \
-    chktex \
     curl \
     wget \
-    latexmk \
-    make && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -21,6 +18,15 @@ COPY minimal.profile .
 RUN curl -L http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -o install-tl-unx.tar.gz && \
     tar xzf install-tl-unx.tar.gz && \
     ./install-tl-*/install-tl -profile ./minimal.profile && \
-    rm -rf minimal.profile install-tl-*
+    rm -rf minimal.profile install-tl-* && \
+    apt-get -qq -y autoremove && \
+    apt-get autoclean && \
+    apt-get -q -y update && \
+    apt-get -q -y --no-install-recommends install \
+    chktex \
+    latexmk \
+    make && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/usr/local/texlive/2023/bin/x86_64-linuxmusl:${PATH}"
+ENV PATH="/usr/local/texlive/2023/bin/x86_64-linuxmusl:/usr/local/texlive/2023/bin/x86_64-linux:${PATH}"
