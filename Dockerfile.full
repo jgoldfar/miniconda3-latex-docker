@@ -8,7 +8,7 @@ ENV LANG="en_US.UTF-8"
 LABEL maintainer "Jonathan Goldfarb <jgoldfar@gmail.com"
 
 RUN apt-get -qq update && \
-    apt-get --no-install-recommends -qq -y install locales-all && \
+    apt-get --no-install-recommends -qq -y install locales-all libstdc++6 && \
     dpkg-reconfigure locales-all && \
     (apt-get --no-install-recommends -qq -y install texlive-full || cat /tmp/fmtutil* && exit 1) && \
     apt-get -qq -y autoremove && \
