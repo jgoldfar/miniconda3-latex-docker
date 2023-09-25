@@ -10,7 +10,6 @@ on:
 # Set env variables
 env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
-  DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
   REPO_NAME: ${{secrets.REPO_NAME}}
 
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
@@ -41,11 +40,13 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
-          username: ${DOCKER_USER}
-          password: ${DOCKER_TOKEN}
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_TOKEN}}
 
       - name: Build ${{ matrix.imgtag }} image, tagging with git SHA and latest
         id: build_image
+        env:
+          DOCKER_BUILDKIT: 1
         run: |
           docker build \
           -f Dockerfile.${{ matrix.imgtag }} \
@@ -53,10 +54,8 @@ jobs:
           -t ${DOCKER_USER}/${REPO_NAME}:${{ matrix.imgtag }}-latest \
           -t ${DOCKER_USER}/${REPO_NAME}:${{ matrix.imgtag }} \
           .
-        env:
-          DOCKER_BUILDKIT: 1
 
       - name: Push tagged images to docker
         if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && github.ref_protected }}
         run: |
-          docker push --all-tags $DOCKER_USER/$REPO_NAME
+          docker push --all-tags ${DOCKER_USER}/${REPO_NAME}
