@@ -10,7 +10,8 @@ RUN apt-get -q -y update && \
     apt-get -q -y --no-install-recommends install \
     curl \
     wget \
-    perl && \
+    perl \
+    ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -20,6 +21,7 @@ RUN curl -L https://mirrors.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
     tar xzf install-tl-unx.tar.gz && \
     ./install-tl-*/install-tl -profile ./minimal.profile && \
     rm -rf minimal.profile install-tl-* && \
+    apt-get remove -y curl && \
     apt-get -qq -y autoremove && \
     apt-get autoclean && \
     apt-get -q -y update && \
